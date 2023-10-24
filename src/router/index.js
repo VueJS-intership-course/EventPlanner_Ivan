@@ -3,6 +3,7 @@ import HomePage from "@/pages/HomePage/HomePage.vue";
 import EventsPage from "@/pages/EventsPage/EventsPage.vue";
 import ProfilePage from "@/pages/ProfilePage/ProfilePage.vue";
 import CreateEventPage from "@/pages/CreateEventPage/CreateEventPage.vue";
+import RegisterPage from "@/pages/RegisterPage/RegisterPage.vue";
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: "/create-event",
     name: "createEvent",
     component: CreateEventPage,
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: RegisterPage,
   },
 ];
 
