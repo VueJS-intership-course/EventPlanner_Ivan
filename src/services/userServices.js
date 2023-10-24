@@ -1,0 +1,73 @@
+import firebaseData from "./firebaseConfig";
+import {
+  setPersistence,
+  signInWithEmailAndPassword,
+  browserLocalPersistence,
+  getAuth,
+} from "firebase/auth";
+
+export default {
+  async getAll() {
+    try {
+      const data = [];
+      const querySnapshot = await firebaseData.fireStore.collection("users").get();
+
+      querySnapshot.forEach((doc) => {
+        const { username, email } = doc.data();
+
+        const id = doc.id;
+
+        const user = new Employee(username, email, id);
+
+        data.push(user);
+      });
+
+      return data;
+    } catch (error) {
+      console.error("Error fetching user profiles:", error);
+      throw error;
+    }
+  },
+
+  async signUp(user, password) {
+    try {
+      const userCredential = await firebaseData.fireAuth.createUserWithEmailAndPassword(
+        user.email,
+        password
+      );
+
+      if (userCredential && userCredential.user) {
+        await firebaseData.fireStore.collection("users").doc(userCredential.user.uid).set({
+          email: user.email,
+          username: user.username,
+          id: crypto.randomUUID(),
+          role: user.role,
+        });
+      }
+    } catch (error) {
+      console.error("Error signing up:", error);
+      throw error;
+    }
+  },
+
+  async signIn(email, password) {
+    try {
+      await firebaseData.fireAuth.signInWithEmailAndPassword(email, password);
+      const auth = getAuth();
+
+      setPersistence(auth, browserLocalPersistence)
+        .then(() => {
+          return signInWithEmailAndPassword(auth, email, password);
+        })
+        .catch((err) => {
+          throw err.message;
+        });
+    } catch (error) {
+      throw new Error("Invalid email or password");
+    }
+  },
+
+  async logout() {
+    await firebaseData.fireAuth.signOut();
+  },
+};
