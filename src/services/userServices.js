@@ -29,19 +29,19 @@ export default {
     }
   },
 
-  async signUp(user, password) {
+  async signUp(user) {
     try {
       const userCredential = await firebaseData.fireAuth.createUserWithEmailAndPassword(
         user.email,
-        password
+        user.password
       );
 
       if (userCredential && userCredential.user) {
         await firebaseData.fireStore.collection("users").doc(userCredential.user.uid).set({
           email: user.email,
-          username: user.username,
           id: crypto.randomUUID(),
           role: user.role,
+          timezone: user.timezone,
         });
       }
     } catch (error) {

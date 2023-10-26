@@ -33,6 +33,10 @@ import BasicInput from "../../components/BasicInput.vue";
 import { ref } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
+import userService from "@/services/userServices.js";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const { handleSubmit } = useForm({
   validationSchema: yup.object({
@@ -52,9 +56,22 @@ const { handleSubmit } = useForm({
 
 const searchValue = ref("");
 
-const onSubmit = handleSubmit((values) => {
-  console.log(values);
-  console.log(searchValue.value);
+const onSubmit = handleSubmit((values, { resetForm }) => {
+  const user = {
+    email: values.email,
+    password: values.password,
+    role: "user",
+    timezone: searchValue.value,
+  };
+
+  try {
+    userService.signUp(user);
+  } catch (error) {
+    console.log(error);
+  }
+
+  resetForm();
+  router.push({ name: "events" });
 });
 </script>
 
