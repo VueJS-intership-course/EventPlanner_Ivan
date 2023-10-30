@@ -4,6 +4,7 @@ import EventsPage from "@/pages/EventsPage/EventsPage.vue";
 import ProfilePage from "@/pages/ProfilePage/ProfilePage.vue";
 import CreateEventPage from "@/pages/CreateEventPage/CreateEventPage.vue";
 import RegisterPage from "@/pages/RegisterPage/RegisterPage.vue";
+import LoginPage from "@/pages/LoginPage/LoginPage.vue";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/register",
     name: "register",
     component: RegisterPage,
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: LoginPage,
   },
 ];
 

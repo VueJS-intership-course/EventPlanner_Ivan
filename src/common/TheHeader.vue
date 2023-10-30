@@ -7,9 +7,13 @@
           <li class="nav-item">
             <RouterLink :to="{ name: 'events' }" class="nav-link">Events</RouterLink>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!store.currentUser">
             <RouterLink :to="{ name: 'register' }" class="nav-link">Register</RouterLink>
           </li>
+          <li class="nav-item" v-if="!store.currentUser">
+            <RouterLink :to="{ name: 'login' }" class="nav-link">Login</RouterLink>
+          </li>
+
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -28,7 +32,13 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
+          <li class="nav-item">
+            {{ store.getCurrentUserEmail }}
+          </li>
         </ul>
+        <div>
+          <span></span>
+        </div>
         <form class="d-flex">
           <input
             class="form-control me-2"
@@ -45,6 +55,9 @@
 
 <script setup>
 import { RouterLink } from "vue-router";
+import userStore from "@/store/userStore.js";
+
+const store = userStore();
 </script>
 
 <style lang="scss" scoped>
