@@ -1,9 +1,11 @@
 <template>
   <div>
-    <h1>Create event page</h1>
+    <CreateEventPage />
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import CreateEventPage from "@/components/EventForm.vue";
+</script>
 
 <style lang="scss" scoped></style>

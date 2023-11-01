@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { ref, computed, defineEmits } from "vue";
+import { ref, computed } from "vue";
 import moment from "moment-timezone";
 
 const emit = defineEmits(["update:modelValue"]);
@@ -52,6 +52,7 @@ const selectOption = (option) => {
     padding: 8px;
     border: 1px solid #dee2e6;
     border-radius: 0.375rem;
+    margin-top: 0.5rem;
   }
 
   ul.options-list {
