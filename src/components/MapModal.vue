@@ -9,18 +9,11 @@
     Open Map
   </button>
   <Teleport to="body">
-    <div
-      class="modal d-block"
-      id="exampleModalCenter"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalCenterTitle"
-      v-if="isOpen"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal d-block" v-if="isOpen" @click="switchModal">
+      <div class="modal-dialog modal-dialog-centered" @click.stop="">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Event Location</h5>
+            <h5 class="modal-title">Event Location</h5>
             <button
               type="button"
               class="close"
@@ -31,16 +24,11 @@
               <span>&times;</span>
             </button>
           </div>
-          <div class="modal-body">...</div>
+          <div class="modal-body">
+            <MapInitialization />
+          </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-              @click="switchModal"
-            >
-              Close
-            </button>
+            <button type="button" class="btn btn-secondary" @click="switchModal">Close</button>
             <button type="button" class="btn btn-primary">Save Location</button>
           </div>
         </div>
@@ -51,6 +39,7 @@
 
 <script setup>
 import { ref } from "vue";
+import MapInitialization from "./MapInitialization.vue";
 
 const isOpen = ref(false);
 
