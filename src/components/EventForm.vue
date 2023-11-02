@@ -15,12 +15,14 @@
         <BasicInput name="budget" type="number" label="Budget" />
       </div>
       <div class="input-wrapper mt-4">
-        <div class="mr-4">
+        <DropdownSelect v-model="timezone" />
+      </div>
+
+      <div class="input-wrapper mt-4">
+        <div class="mr-4 mb-2">
           <span>{{ selectedLocation }}</span>
         </div>
-        <!-- <button type="button" class="my-2 btn btn-outline-secondary">Open Map</button> -->
         <MapModal />
-        <DropdownSelect v-model="timezone" />
       </div>
       <div class="input-wrapper mt-4">
         <label for="exampleFormControlTextarea1">Description</label>
@@ -38,7 +40,7 @@
 
 <script setup>
 import BasicInput from "@/components/BasicInput.vue";
-import DropdownSelect from "@/components/DropdownSelect.vue";
+import DropdownSelect from "@/components/dropdownSelect.vue";
 import MapModal from "@/components/MapModal.vue";
 import { ref } from "vue";
 import * as yup from "yup";
@@ -56,18 +58,18 @@ const { handleSubmit } = useForm({
   validationSchema: yup.object({
     name: yup.string().required("This field is required!"),
     ticketCount: yup
-      .number()
-      .integer()
+      .number("This field is required!")
+      .integer("Must be an integer!")
       .min(20, "Tickets cannot be less than 20!")
       .max(20000, "Maximum capacity exceeded!")
       .required("This field is required!"),
     ticketPrice: yup
-      .number()
+      .number("This field is required!")
       .min(5, "Price must be greater than 5 bucks!")
       .max(10000, "Price cannot be grater than 10000 bucks!")
       .required("This field is required!"),
     budget: yup
-      .number()
+      .number("This field is required!")
       .min(100, "Budget cannot be less than 100 bucks!")
       .max(1000000, "Budget cannot be greater than 1000000!")
       .required("This field is required!"),
