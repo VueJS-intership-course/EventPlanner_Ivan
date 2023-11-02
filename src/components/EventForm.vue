@@ -42,34 +42,40 @@
 import BasicInput from "@/components/BasicInput.vue";
 import DropdownSelect from "@/components/dropdownSelect.vue";
 import MapModal from "@/components/MapModal.vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
 import eventServices from "@/services/eventServices.js";
 import { useRouter } from "vue-router";
+import useEventStore from "@/store/eventsStore";
 
 const router = useRouter();
+const store = useEventStore();
 
 const description = ref("");
 const timezone = ref("");
 const selectedLocation = ref("Press the button to select location:");
+const eventLocation = computed(() => store.eventCreationCoord);
 
 const { handleSubmit } = useForm({
   validationSchema: yup.object({
     name: yup.string().required("This field is required!"),
     ticketCount: yup
-      .number("This field is required!")
+      .number()
+      .typeError("This field is required!")
       .integer("Must be an integer!")
       .min(20, "Tickets cannot be less than 20!")
       .max(20000, "Maximum capacity exceeded!")
       .required("This field is required!"),
     ticketPrice: yup
-      .number("This field is required!")
+      .number()
+      .typeError("This field is required!")
       .min(5, "Price must be greater than 5 bucks!")
       .max(10000, "Price cannot be grater than 10000 bucks!")
       .required("This field is required!"),
     budget: yup
-      .number("This field is required!")
+      .number()
+      .typeError("This field is required!")
       .min(100, "Budget cannot be less than 100 bucks!")
       .max(1000000, "Budget cannot be greater than 1000000!")
       .required("This field is required!"),
@@ -85,19 +91,20 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
     budget: values.budget,
     timezone: timezone.value,
     description: description.value,
+    location: eventLocation.value,
   };
-  if (description.value !== "" && timezone.value !== "") {
+  if (description.value !== "" && timezone.value !== "" && eventLocation.value) {
     try {
       eventServices.addEvent(event);
+      resetForm();
+      description.value = "";
+      timezone.value = "";
+      store.eventCreationCoord = null;
+      router.push({ name: "events" });
     } catch (error) {
       console.log(error);
     }
   }
-
-  resetForm();
-  description.value = "";
-  timezone.value = "";
-  router.push({ name: "events" });
 });
 </script>
 

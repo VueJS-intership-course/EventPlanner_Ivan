@@ -29,6 +29,7 @@ export default {
         budget: event.budget,
         timezone: event.timezone,
         description: event.description,
+        location: event.location,
       });
     } catch (error) {
       console.error("Error validating event:", error);

@@ -23,6 +23,7 @@ const isLoading = ref(true);
 const populateEvents = async () => {
   try {
     await eventStore.getEvents();
+    eventList.value = [];
     eventList.value = eventStore.getAllEvents;
     isLoading.value = false;
   } catch (error) {
