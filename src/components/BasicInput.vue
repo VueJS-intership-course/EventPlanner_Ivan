@@ -21,10 +21,4 @@ span {
   color: red;
   left: 0%;
 }
-
-input {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
 </style>

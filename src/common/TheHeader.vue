@@ -13,6 +13,11 @@
           <li class="nav-item" v-if="!store.currentUser">
             <RouterLink :to="{ name: 'login' }" class="nav-link">Login</RouterLink>
           </li>
+          <li class="nav-item">
+            <RouterLink :to="{ name: 'createEvent' }" class="nav-link">
+              Create event</RouterLink
+            >
+          </li>
 
           <li class="nav-item dropdown">
             <a

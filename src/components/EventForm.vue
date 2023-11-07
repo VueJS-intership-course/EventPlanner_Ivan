@@ -17,10 +17,15 @@
       <div class="input-wrapper mt-4">
         <DropdownSelect v-model="timezone" />
       </div>
-
+      <div class="input-wrapper">
+        <BasicInput type="date" name="date" label="Event date" />
+      </div>
+      <div class="input-wrapper">
+        <BasicInput type="time" name="time" label="Event time" />
+      </div>
       <div class="input-wrapper mt-4">
         <div class="mr-4 mb-2">
-          <span>{{ selectedLocation }}</span>
+          <span>Press the button to select location:</span>
         </div>
         <MapModal />
       </div>
@@ -48,13 +53,13 @@ import { useForm } from "vee-validate";
 import eventServices from "@/services/eventServices.js";
 import { useRouter } from "vue-router";
 import useEventStore from "@/store/eventsStore";
+import moment from "moment";
 
 const router = useRouter();
 const store = useEventStore();
 
 const description = ref("");
 const timezone = ref("");
-const selectedLocation = ref("Press the button to select location:");
 const eventLocation = computed(() => store.eventCreationCoord);
 
 const { handleSubmit } = useForm({
@@ -79,21 +84,37 @@ const { handleSubmit } = useForm({
       .min(100, "Budget cannot be less than 100 bucks!")
       .max(1000000, "Budget cannot be greater than 1000000!")
       .required("This field is required!"),
+    date: yup
+      .string()
+      .test("is-after-today", "Date must be after today", (value) => {
+        const selectedDate = new Date(value);
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        return selectedDate >= tomorrow;
+        //Think of validation to take the timezone in mind
+      })
+      .required("This field is required!"),
+    time: yup.string().required("This field is required!"),
   }),
 });
 
 const onSubmit = handleSubmit((values, { resetForm }) => {
-  const event = {
-    id: crypto.randomUUID(),
-    name: values.name,
-    ticketCount: values.ticketCount,
-    ticketPrice: values.ticketPrice,
-    budget: values.budget,
-    timezone: timezone.value,
-    description: description.value,
-    location: eventLocation.value,
-  };
-  if (description.value !== "" && timezone.value !== "" && eventLocation.value) {
+  if (timezone.value !== "" && eventLocation.value) {
+    const eventDate = moment.tz(`${values.date} ${values.time}`, timezone.value).toISOString();
+
+    const event = {
+      id: crypto.randomUUID(),
+      name: values.name,
+      ticketCount: values.ticketCount,
+      ticketPrice: values.ticketPrice,
+      budget: values.budget,
+      timezone: timezone.value,
+      description: description.value,
+      location: eventLocation.value,
+      time: eventDate,
+    };
+
     try {
       eventServices.addEvent(event);
       resetForm();

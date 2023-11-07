@@ -30,6 +30,7 @@ export default {
         timezone: event.timezone,
         description: event.description,
         location: event.location,
+        time: event.time,
       });
     } catch (error) {
       console.error("Error validating event:", error);
