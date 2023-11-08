@@ -26,6 +26,7 @@
       <div class="input-wrapper mt-4">
         <div class="mr-4 mb-2">
           <span>Press the button to select location:</span>
+          <span class="map-error" v-if="isNotSelectedLoc">Please choose location!</span>
         </div>
         <MapModal />
       </div>
@@ -47,7 +48,7 @@
 import BasicInput from "@/components/BasicInput.vue";
 import DropdownSelect from "@/components/dropdownSelect.vue";
 import MapModal from "@/components/MapModal.vue";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
 import eventServices from "@/services/eventServices.js";
@@ -57,6 +58,7 @@ import moment from "moment";
 
 const router = useRouter();
 const store = useEventStore();
+const isNotSelectedLoc = ref(false);
 
 const description = ref("");
 const timezone = ref("");
@@ -100,6 +102,11 @@ const { handleSubmit } = useForm({
 });
 
 const onSubmit = handleSubmit((values, { resetForm }) => {
+  if (!eventLocation.value) {
+    isNotSelectedLoc.value = true;
+    return;
+  }
+  isNotSelectedLoc.value = false;
   if (timezone.value !== "" && eventLocation.value) {
     const eventDate = moment.tz(`${values.date} ${values.time}`, timezone.value).toISOString();
 
@@ -142,5 +149,10 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
 
 .btn-primary {
   margin-top: 1rem;
+}
+
+.map-error {
+  display: block;
+  color: red;
 }
 </style>
