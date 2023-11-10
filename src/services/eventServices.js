@@ -19,6 +19,26 @@ export default {
     }
   },
 
+  async getOne(eventId) {
+    try {
+      const querySnapshot = await fireBaseData.fireStore
+        .collection("events")
+        .where("id", "==", eventId)
+        .get();
+      if (querySnapshot.docs.length > 0) {
+        const eventData = querySnapshot.docs[0].data();
+        console.log(eventData);
+        return eventData;
+      } else {
+        console.log("Event document does not exist.");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error retrieving event data:", error);
+      throw error;
+    }
+  },
+
   async addEvent(event) {
     try {
       await fireBaseData.fireStore.collection("events").add({

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "@/pages/HomePage/HomePage.vue";
 import EventsPage from "@/pages/EventsPage/EventsPage.vue";
+import EventDetailsPage from "@/pages/EventDetailsPage/EventDetailsPage.vue";
 import ProfilePage from "@/pages/ProfilePage/ProfilePage.vue";
 import CreateEventPage from "@/pages/CreateEventPage/CreateEventPage.vue";
 import RegisterPage from "@/pages/RegisterPage/RegisterPage.vue";
@@ -16,6 +17,11 @@ const routes = [
     path: "/events",
     name: "events",
     component: EventsPage,
+  },
+  {
+    path: "/events/:eventId",
+    name: "eventDetails",
+    component: EventDetailsPage,
   },
   {
     path: "/profile",

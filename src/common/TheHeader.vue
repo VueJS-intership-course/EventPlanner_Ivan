@@ -19,7 +19,7 @@
             >
           </li>
 
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -36,15 +36,15 @@
               <li><hr class="dropdown-divider" /></li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
-          </li>
-          <li class="nav-item">
+          </li> -->
+          <li class="nav-item username">
             {{ store.getCurrentUserEmail }}
           </li>
         </ul>
         <div>
           <span></span>
         </div>
-        <form class="d-flex">
+        <!-- <form class="d-flex">
           <input
             class="form-control me-2"
             type="search"
@@ -52,7 +52,7 @@
             aria-label="Search"
           />
           <button class="btn bg-success text-light" type="submit">Search</button>
-        </form>
+        </form> -->
       </div>
     </div>
   </nav>
@@ -68,5 +68,9 @@ const store = userStore();
 <style lang="scss" scoped>
 .navbar-brand {
   font-size: 1.5rem;
+}
+
+.username {
+  align-self: center;
 }
 </style>

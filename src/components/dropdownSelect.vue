@@ -6,10 +6,16 @@
       v-model="search"
       @input="filterOptions"
       @focus="isOpen = true"
+      @blur="blurHandler"
       placeholder="Select an option"
     />
     <ul v-show="isOpen" class="options-list">
-      <li v-for="option in filteredOptions" @click="selectOption(option)" :key="option">
+      <li
+        v-for="option in filteredOptions"
+        @click="selectOption(option)"
+        @mousedown="filterOptions"
+        :key="option"
+      >
         {{ option }}
       </li>
     </ul>
@@ -29,6 +35,10 @@ const options = moment.tz.names();
 const filteredOptions = computed(() => {
   return options.filter((option) => option.toLowerCase().includes(search.value.toLowerCase()));
 });
+
+const blurHandler = () => {
+  isOpen.value = false;
+};
 
 const filterOptions = () => {
   isOpen.value = true;

@@ -15,9 +15,11 @@ import { Vector as VectorSource } from "ol/source";
 import { Vector as VectorLayer } from "ol/layer";
 import { Style } from "ol/style";
 import Icon from "ol/style/Icon";
+import * as olProj from "ol/proj";
 
 import useEventStore from "@/store/eventsStore";
 import { onMounted, ref } from "vue";
+import getCountryName from "@/utills/getCountryName.js";
 
 const store = useEventStore();
 const map = ref(null);
@@ -50,6 +52,9 @@ const initMap = () => {
 
   map.value.on("click", (evt) => {
     const clickedCoordinate = evt.coordinate;
+    const transformedCoordnates = olProj.transform(evt.coordinate, "EPSG:3857", "EPSG:4326");
+
+    getCountryName(transformedCoordnates);
 
     const markerFeature = new Feature({
       geometry: new Point(clickedCoordinate),

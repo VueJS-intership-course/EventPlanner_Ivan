@@ -10,7 +10,11 @@
           <span>{{ event.description }}</span>
         </div>
         <div>
-          <button>Learn more</button>
+          <RouterLink
+            class="btn btn-primary"
+            :to="{ name: 'eventDetails', params: { eventId: event.id } }"
+            >Learn more</RouterLink
+          >
           <!-- Replace with router link -->
         </div>
       </li>
