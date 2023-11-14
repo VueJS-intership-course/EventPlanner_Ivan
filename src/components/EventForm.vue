@@ -48,7 +48,7 @@
 import BasicInput from "@/components/BasicInput.vue";
 import DropdownSelect from "@/components/dropdownSelect.vue";
 import MapModal from "@/components/MapModal.vue";
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
 import eventServices from "@/services/eventServices.js";
@@ -63,6 +63,7 @@ const isNotSelectedLoc = ref(false);
 const description = ref("");
 const timezone = ref("");
 const eventLocation = computed(() => store.eventCreationCoord);
+const eventAddress = computed(() => store.eventCreationAddress);
 
 const { handleSubmit } = useForm({
   validationSchema: yup.object({
@@ -107,7 +108,7 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
     return;
   }
   isNotSelectedLoc.value = false;
-  if (timezone.value !== "" && eventLocation.value) {
+  if (timezone.value !== "" && eventLocation.value && eventAddress.value) {
     const eventDate = moment.tz(`${values.date} ${values.time}`, timezone.value).toISOString();
 
     const event = {
@@ -119,6 +120,7 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
       timezone: timezone.value,
       description: description.value,
       location: eventLocation.value,
+      address: eventAddress.value,
       time: eventDate,
     };
 
@@ -128,6 +130,7 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
       description.value = "";
       timezone.value = "";
       store.eventCreationCoord = null;
+      store.eventCreationAddress = null;
       router.push({ name: "events" });
     } catch (error) {
       console.log(error);

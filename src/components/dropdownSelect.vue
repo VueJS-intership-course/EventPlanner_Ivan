@@ -6,7 +6,6 @@
       v-model="search"
       @input="filterOptions"
       @focus="isOpen = true"
-      @blur="blurHandler"
       placeholder="Select an option"
     />
     <ul v-show="isOpen" class="options-list">

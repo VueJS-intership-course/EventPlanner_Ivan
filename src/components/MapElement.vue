@@ -50,11 +50,11 @@ const initMap = () => {
     }),
   });
 
-  map.value.on("click", (evt) => {
+  map.value.on("click", async (evt) => {
     const clickedCoordinate = evt.coordinate;
     const transformedCoordnates = olProj.transform(evt.coordinate, "EPSG:3857", "EPSG:4326");
 
-    getCountryName(transformedCoordnates);
+    const addressData = await getCountryName(transformedCoordnates);
 
     const markerFeature = new Feature({
       geometry: new Point(clickedCoordinate),
@@ -65,6 +65,7 @@ const initMap = () => {
     markerSource.clear();
     markerSource.addFeature(markerFeature);
     store.eventCreationCoord = clickedCoordinate;
+    store.eventCreationAddress = addressData;
   });
 };
 

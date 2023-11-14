@@ -8,9 +8,6 @@
             <RouterLink :to="{ name: 'events' }" class="nav-link">Events</RouterLink>
           </li>
           <li class="nav-item" v-if="!store.currentUser">
-            <RouterLink :to="{ name: 'register' }" class="nav-link">Register</RouterLink>
-          </li>
-          <li class="nav-item" v-if="!store.currentUser">
             <RouterLink :to="{ name: 'login' }" class="nav-link">Login</RouterLink>
           </li>
           <li class="nav-item">
@@ -68,6 +65,7 @@ const store = userStore();
 <style lang="scss" scoped>
 .navbar-brand {
   font-size: 1.5rem;
+  color: white;
 }
 
 .username {

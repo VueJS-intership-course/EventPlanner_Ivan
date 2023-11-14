@@ -8,6 +8,12 @@
       <div class="input-wrapper">
         <BasicInput name="password" type="password" label="Password" class="from-control" />
       </div>
+      <div>
+        <span
+          >Don't have an account yet?
+          <RouterLink :to="{ name: 'register' }">Sign up</RouterLink></span
+        >
+      </div>
       <button type="submit" class="btn btn-primary">Login</button>
     </form>
   </div>
@@ -20,6 +26,7 @@ import * as yup from "yup";
 import userService from "@/services/userServices.js";
 import { useRouter } from "vue-router";
 import userStore from "@/store/userStore.js";
+import { ref } from "vue";
 
 const router = useRouter();
 
@@ -35,16 +42,15 @@ const { handleSubmit } = useForm({
   }),
 });
 
-const onSubmit = handleSubmit((values, { resetForm }) => {
+const onSubmit = handleSubmit(async (values, { resetForm }) => {
   try {
-    userService.signIn(values.email, values.password);
+    await userService.signIn(values.email, values.password);
     store.setCurrentUser({ email: values.email });
+    resetForm();
+    router.push({ name: "events" });
   } catch (error) {
-    console.log(error);
+    alert(`There was a problem with your login: ${error}`);
   }
-
-  resetForm();
-  router.push({ name: "events" });
 });
 </script>
 

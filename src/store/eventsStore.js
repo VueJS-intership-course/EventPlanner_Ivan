@@ -4,7 +4,9 @@ import eventServices from "@/services/eventServices";
 const useEventStore = defineStore("event", {
   state: () => ({
     allEvents: [],
+    selectedEvent: {},
     eventCreationCoord: null,
+    eventCreationAddress: null,
   }),
   getters: {
     getAllEvents(state) {
@@ -14,11 +16,18 @@ const useEventStore = defineStore("event", {
   actions: {
     async getEvents() {
       try {
-        const response = await eventServices.getAll();
         this.allEvents = [];
+        const response = await eventServices.getAll();
         response.forEach((event) => this.allEvents.push(event));
       } catch (error) {
         console.log("There was a problem fetching events:", error);
+      }
+    },
+    async getEventById(id) {
+      try {
+        this.selectedEvent = await eventServices.getById(id);
+      } catch (error) {
+        console.log("There was a problem fetching the event details:", error);
       }
     },
   },
