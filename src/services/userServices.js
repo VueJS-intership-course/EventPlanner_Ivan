@@ -67,6 +67,17 @@ export default {
     }
   },
 
+  async getUserTimezone(email) {
+    const querySnapshot = await firebaseData.fireStore
+      .collection("users")
+      .where("email", "==", email)
+      .get();
+
+    const doc = querySnapshot.docs[0].data();
+
+    return doc.timezone;
+  },
+
   async logout() {
     await firebaseData.fireAuth.signOut();
   },

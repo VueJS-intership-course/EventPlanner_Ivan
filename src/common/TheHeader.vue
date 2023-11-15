@@ -39,7 +39,9 @@
           </li>
         </ul>
         <div>
-          <span></span>
+          <button @click="logoutHandler" v-if="store.currentUser" class="btn btn-danger">
+            Logout
+          </button>
         </div>
         <!-- <form class="d-flex">
           <input
@@ -60,6 +62,10 @@ import { RouterLink } from "vue-router";
 import userStore from "@/store/userStore.js";
 
 const store = userStore();
+
+const logoutHandler = () => {
+  store.logoutUser();
+};
 </script>
 
 <style lang="scss" scoped>
@@ -68,7 +74,12 @@ const store = userStore();
   color: white;
 }
 
+.nav-link {
+  color: white;
+}
+
 .username {
   align-self: center;
+  color: white;
 }
 </style>

@@ -11,16 +11,23 @@ const userStore = defineStore("user", {
     },
   },
   actions: {
-    setCurrentUser(user) {
-      this.currentUser = user;
+    async setCurrentUser(userEmail) {
+      if (userEmail) {
+        const userTimezone = await userService.getUserTimezone(userEmail);
+        this.currentUser = { email: userEmail, timezone: userTimezone };
+      }
     },
     async registerUser(user) {
       try {
         userService.signUp(user);
-        this.setCurrentUser({ email: values.email, timezone: searchValue.value });
+        this.setCurrentUser({ email: values.email });
       } catch (error) {
         console.log(error);
       }
+    },
+    logoutUser() {
+      userService.logout();
+      this.currentUser = null;
     },
   },
 });

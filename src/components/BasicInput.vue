@@ -21,4 +21,8 @@ span {
   color: red;
   left: 0%;
 }
+
+label {
+  font-weight: bold;
+}
 </style>

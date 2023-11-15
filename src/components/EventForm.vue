@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column p-2 main-container">
+  <div class="d-flex flex-column p-2 main-container my-4">
     <h1>Create an Event</h1>
     <form @submit="onSubmit">
       <div class="input-wrapper mt-4">
@@ -31,7 +31,7 @@
         <MapModal />
       </div>
       <div class="input-wrapper mt-4">
-        <label for="exampleFormControlTextarea1">Description</label>
+        <label for="exampleFormControlTextarea1">Description:</label>
         <textarea
           class="form-control"
           id="exampleFormControlTextarea1"
@@ -143,6 +143,10 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
 .main-container {
   max-width: 30rem;
   margin: auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .input-wrapper {
@@ -157,5 +161,9 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
 .map-error {
   display: block;
   color: red;
+}
+
+label {
+  font-weight: bold;
 }
 </style>

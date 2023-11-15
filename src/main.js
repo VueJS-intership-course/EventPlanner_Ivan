@@ -17,7 +17,7 @@ const store = userStore();
 
 firebaseData.fireAuth.onAuthStateChanged((user) => {
   if (user) {
-    store.setCurrentUser(user);
+    store.setCurrentUser(user.email);
   } else {
     store.setCurrentUser(null);
   }

@@ -4,7 +4,7 @@
 </template>
 
 <script setup>
-import TheHeader from "./common/TheHeader.vue";
+import TheHeader from "@/common/TheHeader.vue";
 </script>
 
 <style scoped>

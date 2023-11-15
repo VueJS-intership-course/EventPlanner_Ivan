@@ -30,6 +30,13 @@
           <label class="label">Budget: </label>
           <span class="data"> {{ event.budget }} $</span>
         </div>
+        <div class="info-item">
+          <label class="label" v-if="useUserStore.currentUser"
+            >Date and time in your timezone:
+          </label>
+          <label class="label" v-if="!useUserStore.currentUser">Date and time in UTC: </label>
+          <span class="data"> {{ date }}</span>
+        </div>
         <button
           class="btn btn-primary"
           @click="buyHandler"
@@ -37,10 +44,13 @@
         >
           Buy ticket
         </button>
-        <span v-if="!useUserStore.currentUser">Want to buy a ticket? </span>
-        <RouterLink :to="{ name: 'login' }" v-if="!useUserStore.currentUser"
-          >Click here to sign in</RouterLink
-        >
+        <div class="my-4">
+          <span v-if="!useUserStore.currentUser">Want to buy a ticket? </span>
+          <RouterLink :to="{ name: 'login' }" v-if="!useUserStore.currentUser"
+            >Click here to sign in</RouterLink
+          >
+        </div>
+
         <span v-if="!event.ticketCount" class="btn btn-danger">SOLD OUT!</span>
       </div>
     </div>
@@ -51,8 +61,9 @@
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import useEventStore from "@/store/eventsStore.js";
-import userStore from "@/store/userStore";
-import eventServices from "@/services/eventServices";
+import userStore from "@/store/userStore.js";
+import eventServices from "@/services/eventServices.js";
+import timeConvert from "@/utills/convertToTimezone.js";
 
 const eventStore = useEventStore();
 const useUserStore = userStore();
@@ -62,6 +73,20 @@ const eventId = ref(route.params);
 const event = computed(() => eventStore.selectedEvent);
 
 eventStore.getEventById(eventId.value.eventId);
+
+const date = computed(() => {
+  if (useUserStore.currentUser) {
+    console.log("user , timezone time");
+
+    const userTz = useUserStore.currentUser.timezone;
+    const result = timeConvert(event.value.time, userTz);
+    return result;
+  } else {
+    console.log("no user , utc time");
+    const result = timeConvert(event.value.time);
+    return result;
+  }
+});
 
 const buyHandler = () => {
   if (event.value.ticketCount > 0) {
