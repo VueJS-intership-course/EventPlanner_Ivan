@@ -14,9 +14,7 @@
       <div class="input-wrapper mt-4">
         <BasicInput name="budget" type="number" label="Budget" />
       </div>
-      <div class="input-wrapper mt-4">
-        <DropdownSelect v-model="timezone" />
-      </div>
+
       <div class="input-wrapper">
         <BasicInput type="date" name="date" label="Event date" />
       </div>
@@ -24,11 +22,27 @@
         <BasicInput type="time" name="time" label="Event time" />
       </div>
       <div class="input-wrapper mt-4">
+        <label class="form-label">City/State or Timezone:</label>
+        <input
+          readonly
+          :value="eventTz"
+          placeholder="Open the map in order to choose timezone"
+          class="form-control"
+        />
+        <!-- Maybe replace the input and label with the basic input component ,
+          but need to find a way to add more atributes to the input -->
+      </div>
+      <div class="input-wrapper mt-4">
         <div class="mr-4 mb-2">
-          <span>Press the button to select location:</span>
+          <label class="form-label">Press the button to select location:</label>
           <span class="map-error" v-if="isNotSelectedLoc">Please choose location!</span>
         </div>
         <MapModal />
+      </div>
+      <div>
+        <label class="form-label">Upload an Event cover image:</label>
+        <input type="file" class="form-control" @change="handleImgSubmit" />
+        <span class="map-error" v-if="isNotSelectedImg">Please upload image!</span>
       </div>
       <div class="input-wrapper mt-4">
         <label for="exampleFormControlTextarea1">Description:</label>
@@ -46,24 +60,25 @@
 
 <script setup>
 import BasicInput from "@/components/BasicInput.vue";
-import DropdownSelect from "@/components/dropdownSelect.vue";
 import MapModal from "@/components/MapModal.vue";
 import { computed, ref } from "vue";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
 import eventServices from "@/services/eventServices.js";
 import { useRouter } from "vue-router";
-import useEventStore from "@/store/eventsStore";
+import eventStore from "@/store/eventsStore.js";
 import moment from "moment";
+import revertGmt from "@/utills/revertGmt.js";
 
 const router = useRouter();
-const store = useEventStore();
+const store = eventStore();
 const isNotSelectedLoc = ref(false);
-
+const eventImg = ref(null);
+const isNotSelectedImg = ref(false);
 const description = ref("");
-const timezone = ref("");
 const eventLocation = computed(() => store.eventCreationCoord);
 const eventAddress = computed(() => store.eventCreationAddress);
+const eventTz = computed(() => store.eventCreationTz);
 
 const { handleSubmit } = useForm({
   validationSchema: yup.object({
@@ -102,14 +117,28 @@ const { handleSubmit } = useForm({
   }),
 });
 
+const handleImgSubmit = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    eventImg.value = file;
+  }
+};
+
 const onSubmit = handleSubmit((values, { resetForm }) => {
   if (!eventLocation.value) {
     isNotSelectedLoc.value = true;
     return;
   }
+  if (!eventImg.value) {
+    isNotSelectedImg.value = true;
+    return;
+  }
   isNotSelectedLoc.value = false;
-  if (timezone.value !== "" && eventLocation.value && eventAddress.value) {
-    const eventDate = moment.tz(`${values.date} ${values.time}`, timezone.value).toISOString();
+  isNotSelectedImg.value = false;
+
+  if (eventTz.value && eventLocation.value && eventAddress.value) {
+    const eventTimezone = revertGmt(eventTz.value);
+    const eventDate = moment.tz(`${values.date} ${values.time}`, eventTimezone).toISOString();
 
     const event = {
       id: crypto.randomUUID(),
@@ -117,20 +146,21 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
       ticketCount: values.ticketCount,
       ticketPrice: values.ticketPrice,
       budget: values.budget,
-      timezone: timezone.value,
+      timezone: eventTimezone,
       description: description.value,
       location: eventLocation.value,
       address: eventAddress.value,
       time: eventDate,
+      imgSrc: eventImg.value,
     };
 
     try {
       eventServices.addEvent(event);
       resetForm();
       description.value = "";
-      timezone.value = "";
       store.eventCreationCoord = null;
       store.eventCreationAddress = null;
+      store.eventCreationTz = null;
       router.push({ name: "events" });
     } catch (error) {
       console.log(error);

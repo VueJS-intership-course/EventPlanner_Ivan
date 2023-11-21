@@ -10,48 +10,20 @@
           <li class="nav-item" v-if="!store.currentUser">
             <RouterLink :to="{ name: 'login' }" class="nav-link">Login</RouterLink>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="store.currentUser?.role === 'admin'">
             <RouterLink :to="{ name: 'createEvent' }" class="nav-link">
               Create event</RouterLink
             >
           </li>
-
-          <!-- <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Dropdown
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li> -->
-          <li class="nav-item username">
-            {{ store.getCurrentUserEmail }}
-          </li>
         </ul>
-        <div>
+        <div class="d-flex gap-3">
+          <span class="nav-item username">
+            {{ store.getCurrentUserEmail }}
+          </span>
           <button @click="logoutHandler" v-if="store.currentUser" class="btn btn-danger">
             Logout
           </button>
         </div>
-        <!-- <form class="d-flex">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn bg-success text-light" type="submit">Search</button>
-        </form> -->
       </div>
     </div>
   </nav>

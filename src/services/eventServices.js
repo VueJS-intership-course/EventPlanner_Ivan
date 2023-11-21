@@ -1,4 +1,5 @@
 import fireBaseData from "@/services/firebaseConfig";
+import imageConverter from "@/utills/imageConverter.js";
 
 export default {
   async getAll() {
@@ -49,6 +50,7 @@ export default {
 
   async addEvent(event) {
     try {
+      const blob = await imageConverter(event.imgSrc);
       await fireBaseData.fireStore.collection("events").add({
         id: event.id,
         name: event.name,
@@ -60,7 +62,9 @@ export default {
         location: event.location,
         address: event.address,
         time: event.time,
+        imgSrc: blob,
       });
+      await this.getAll();
     } catch (error) {
       console.error("Error validating event:", error);
       throw error;

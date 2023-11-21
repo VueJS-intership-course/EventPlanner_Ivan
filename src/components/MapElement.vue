@@ -17,11 +17,12 @@ import { Style } from "ol/style";
 import Icon from "ol/style/Icon";
 import * as olProj from "ol/proj";
 
-import useEventStore from "@/store/eventsStore";
+import eventStore from "@/store/eventsStore";
 import { onMounted, ref } from "vue";
 import getCountryName from "@/utills/getCountryName.js";
+import getTzFromCoords from "@/utills/getTzFromCoords.js";
 
-const store = useEventStore();
+const store = eventStore();
 const map = ref(null);
 
 const markerSource = new VectorSource();
@@ -55,6 +56,10 @@ const initMap = () => {
     const transformedCoordnates = olProj.transform(evt.coordinate, "EPSG:3857", "EPSG:4326");
 
     const addressData = await getCountryName(transformedCoordnates);
+
+    const eventTimezone = getTzFromCoords(transformedCoordnates);
+
+    store.eventCreationTz = eventTimezone;
 
     const markerFeature = new Feature({
       geometry: new Point(clickedCoordinate),

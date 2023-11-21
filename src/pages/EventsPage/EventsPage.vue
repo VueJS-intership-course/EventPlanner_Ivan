@@ -15,7 +15,6 @@
             :to="{ name: 'eventDetails', params: { eventId: event.id } }"
             >Learn more</RouterLink
           >
-          <!-- Replace with router link -->
         </div>
       </li>
     </ul>
@@ -24,18 +23,18 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import useEventStore from "@/store/eventsStore.js";
+import eventStore from "@/store/eventsStore.js";
 
-const eventStore = useEventStore();
+const useEventStore = eventStore();
 
 const eventList = ref([]);
 const isLoading = ref(true);
 
 const populateEvents = async () => {
   try {
-    await eventStore.getEvents();
+    await useEventStore.getEvents();
     eventList.value = [];
-    eventList.value = eventStore.getAllEvents;
+    eventList.value = useEventStore.getAllEvents;
     isLoading.value = false;
   } catch (error) {
     console.error("Error fetching events:", error);

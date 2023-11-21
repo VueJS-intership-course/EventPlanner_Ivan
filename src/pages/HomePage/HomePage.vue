@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <h1>Home page</h1>
-  </div>
+  <ChartMap />
 </template>
 
-<script setup></script>
+<script setup>
+import ChartMap from "@/components/ChartMap.vue";
+</script>
 
 <style lang="scss" scoped></style>

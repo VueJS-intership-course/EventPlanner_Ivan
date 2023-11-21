@@ -67,7 +67,7 @@ export default {
     }
   },
 
-  async getUserTimezone(email) {
+  async getUserTimezoneAndRole(email) {
     const querySnapshot = await firebaseData.fireStore
       .collection("users")
       .where("email", "==", email)
@@ -75,7 +75,7 @@ export default {
 
     const doc = querySnapshot.docs[0].data();
 
-    return doc.timezone;
+    return { timezone: doc.timezone, role: doc.role };
   },
 
   async logout() {

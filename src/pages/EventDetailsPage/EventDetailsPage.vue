@@ -60,29 +60,26 @@
 <script setup>
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
-import useEventStore from "@/store/eventsStore.js";
+import eventStore from "@/store/eventsStore.js";
 import userStore from "@/store/userStore.js";
 import eventServices from "@/services/eventServices.js";
 import timeConvert from "@/utills/convertToTimezone.js";
 
-const eventStore = useEventStore();
+const useEventStore = eventStore();
 const useUserStore = userStore();
 
 const route = useRoute();
 const eventId = ref(route.params);
-const event = computed(() => eventStore.selectedEvent);
+const event = computed(() => useEventStore.selectedEvent);
 
-eventStore.getEventById(eventId.value.eventId);
+useEventStore.getEventById(eventId.value.eventId);
 
 const date = computed(() => {
   if (useUserStore.currentUser) {
-    console.log("user , timezone time");
-
     const userTz = useUserStore.currentUser.timezone;
     const result = timeConvert(event.value.time, userTz);
     return result;
   } else {
-    console.log("no user , utc time");
     const result = timeConvert(event.value.time);
     return result;
   }

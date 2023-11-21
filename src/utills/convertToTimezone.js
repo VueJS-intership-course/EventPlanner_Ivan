@@ -1,4 +1,5 @@
 import moment from "moment-timezone";
+import revertGmt from "./revertGmt";
 
 const timeConvert = (time, timezone) => {
   if (!timezone) {
@@ -7,13 +8,7 @@ const timeConvert = (time, timezone) => {
 
     return formattedUtcTime;
   } else {
-    const symbolRegex = /[+-]/;
-
-    const hasSymbol = symbolRegex.test(timezone);
-
-    const correctedTimeZone = hasSymbol
-      ? timezone.replace(symbolRegex, (match) => (match === "+" ? "-" : "+"))
-      : timezone;
+    const correctedTimeZone = revertGmt(timezone);
 
     const convertedTime = moment.utc(time).clone().tz(correctedTimeZone);
 

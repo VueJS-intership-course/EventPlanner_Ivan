@@ -13,8 +13,8 @@ const userStore = defineStore("user", {
   actions: {
     async setCurrentUser(userEmail) {
       if (userEmail) {
-        const userTimezone = await userService.getUserTimezone(userEmail);
-        this.currentUser = { email: userEmail, timezone: userTimezone };
+        const userTimezoneAndRole = await userService.getUserTimezoneAndRole(userEmail);
+        this.currentUser = { email: userEmail, ...userTimezoneAndRole };
       }
     },
     async registerUser(user) {
