@@ -16,8 +16,14 @@
             >
           </li>
         </ul>
-        <div class="d-flex gap-3">
-          <span class="nav-item username">
+        <div class="d-flex align-items-center">
+          <img
+            src="@/assets/wrench.png"
+            alt="wrench-icon"
+            class="admin-icon"
+            v-if="store.currentUser.role === 'admin'"
+          />
+          <span class="nav-item username mx-3">
             {{ store.getCurrentUserEmail }}
           </span>
           <button @click="logoutHandler" v-if="store.currentUser" class="btn btn-danger">
@@ -51,7 +57,10 @@ const logoutHandler = () => {
 }
 
 .username {
-  align-self: center;
   color: white;
+}
+
+.admin-icon {
+  height: 1.2rem;
 }
 </style>
