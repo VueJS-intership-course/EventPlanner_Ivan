@@ -73,7 +73,7 @@ export default {
       .where("email", "==", email)
       .get();
 
-    const doc = querySnapshot.docs[0].data();
+    const doc = querySnapshot.docs[0]?.data();
 
     return { timezone: doc.timezone, role: doc.role };
   },

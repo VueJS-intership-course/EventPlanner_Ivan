@@ -196,4 +196,8 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
 label {
   font-weight: bold;
 }
+
+textarea {
+  resize: none;
+}
 </style>

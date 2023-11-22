@@ -55,6 +55,30 @@ const eventStore = defineStore("event", {
         console.log("There was a problem fetching the event details:", error);
       }
     },
+    async buyTicket(event, user) {
+      if (event.ticketCount < 1) {
+        return;
+      }
+
+      --event.ticketCount;
+      event.budget = event.budget + event.ticketPrice;
+      event.soldTo = [...event.soldTo, user.email];
+
+      try {
+        await eventServices.buyEventTicket(event);
+        await this.getEventById(event.id);
+      } catch (error) {
+        console.error("Error buying ticket: ", error);
+      }
+    },
+    async deleteEvent(id) {
+      try {
+        await eventServices.delete(id);
+        await this.getEvents();
+      } catch (error) {
+        console.error("Error removing a product:", error);
+      }
+    },
   },
 });
 

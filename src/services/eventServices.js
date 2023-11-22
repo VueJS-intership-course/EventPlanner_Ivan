@@ -8,8 +8,17 @@ export default {
       const querySnapshot = await fireBaseData.fireStore.collection("events").get();
 
       querySnapshot.forEach((doc) => {
-        const { id, name, ticketCount, ticketPrice, budget, timezone, description, address } =
-          doc.data();
+        const {
+          id,
+          name,
+          ticketCount,
+          ticketPrice,
+          budget,
+          timezone,
+          description,
+          address,
+          imgSrc,
+        } = doc.data();
         const event = {
           id,
           name,
@@ -19,6 +28,7 @@ export default {
           timezone,
           description,
           address,
+          imgSrc,
         };
         data.push(event);
       });
@@ -63,6 +73,7 @@ export default {
         address: event.address,
         time: event.time,
         imgSrc: blob,
+        soldTo: [],
       });
       await this.getAll();
     } catch (error) {
@@ -116,9 +127,10 @@ export default {
       await doc.ref.update({
         ticketCount: event.ticketCount,
         budget: event.budget,
+        soldTo: event.soldTo,
       });
     } catch (error) {
-      console.error("Error editing event: ", error);
+      console.error("Error buying ticket: ", error);
     }
   },
 };

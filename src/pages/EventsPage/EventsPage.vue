@@ -1,23 +1,23 @@
 <template>
-  <div>
-    <h1>Events page</h1>
-  </div>
-  <div>
-    <ul v-if="!isLoading">
-      <li v-for="event in eventList" :key="event.id">
-        <div>
+  <div class="mb-5">
+    <h1 class="d-flex justify-content-center my-4">Events List</h1>
+    <div class="event-list mx-4" v-if="!isLoading">
+      <div v-for="event in eventList" :key="event.id" class="event-card">
+        <img :src="event.imgSrc" class="event-image" alt="Event Image" />
+        <div class="event-details">
           <h2>{{ event.name }}</h2>
-          <span>{{ event.description }}</span>
+          <div class="event-description">{{ event.description }}</div>
         </div>
-        <div>
+        <div class="event-actions">
           <RouterLink
             class="btn btn-primary"
             :to="{ name: 'eventDetails', params: { eventId: event.id } }"
-            >Learn more</RouterLink
           >
+            Learn more
+          </RouterLink>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -45,69 +45,44 @@ const populateEvents = async () => {
 onMounted(populateEvents);
 </script>
 
-<style lang="scss" scoped>
-div {
-  margin: 10px;
-  padding: 10px;
+<style scoped lang="scss">
+.event-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
 
-  h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
+.event-card {
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  width: 18.75rem;
+  display: grid;
+  align-items: stretch;
+  align-content: space-between;
+}
 
-  ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
+.event-image {
+  width: 100%;
+  height: 9.25rem;
+  object-fit: cover;
+}
 
-    li {
-      flex: 0 0 calc(33.3333% - 20px);
-      margin: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      display: flex;
-      flex-direction: column;
+.event-details {
+  padding: 1rem;
+}
 
-      h2 {
-        font-size: 18px;
-        margin: 0;
-        padding: 10px;
-      }
+.event-description {
+  color: #555;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 15rem;
+  overflow: hidden;
+}
 
-      span {
-        flex-grow: 1;
-        font-size: 14px;
-        color: #666;
-        padding: 10px;
-      }
-
-      button {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 0 0 5px 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
-    }
-  }
-
-  @media (max-width: 768px) {
-    ul {
-      li {
-        flex: 0 0 calc(50% - 20px);
-      }
-    }
-  }
-
-  @media (max-width: 576px) {
-    ul {
-      li {
-        flex: 0 0 calc(100% - 20px);
-      }
-    }
-  }
+.event-actions {
+  padding: 1rem;
+  text-align: center;
 }
 </style>

@@ -21,7 +21,7 @@
             src="@/assets/wrench.png"
             alt="wrench-icon"
             class="admin-icon"
-            v-if="store.currentUser.role === 'admin'"
+            v-if="store.currentUser?.role === 'admin'"
           />
           <span class="nav-item username mx-3">
             {{ store.getCurrentUserEmail }}
@@ -36,13 +36,15 @@
 </template>
 
 <script setup>
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import userStore from "@/store/userStore.js";
 
 const store = userStore();
+const router = useRouter();
 
 const logoutHandler = () => {
   store.logoutUser();
+  router.push({ name: "home" });
 };
 </script>
 
