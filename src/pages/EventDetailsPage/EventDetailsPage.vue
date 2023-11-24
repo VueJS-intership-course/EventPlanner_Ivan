@@ -48,7 +48,8 @@
         </div>
         <!-- <span v-if="!event.ticketCount" class="btn btn-danger">SOLD OUT!</span> -->
         <div v-if="user?.role === 'admin'" class="d-flex gap-2">
-          <button class="btn btn-primary">Edit</button>
+          <!-- <button class="btn btn-primary">Edit</button> -->
+          <EventEditModal />
           <button class="btn btn-danger" @click="deleteHandler">Delete</button>
         </div>
       </div>
@@ -62,6 +63,7 @@ import { useRoute, useRouter } from "vue-router";
 import eventStore from "@/store/eventsStore.js";
 import userStore from "@/store/userStore.js";
 import timeConvert from "@/utills/convertToTimezone.js";
+import EventEditModal from "@/components/EventEditModal.vue";
 
 const useEventStore = eventStore();
 const useUserStore = userStore();

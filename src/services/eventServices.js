@@ -107,9 +107,11 @@ export default {
     try {
       await doc.ref.update({
         name: event.name,
-        price: event.price,
+        ticketCount: event.ticketCount,
+        ticketPrice: event.ticketPrice,
+        budget: event.budget,
         description: event.description,
-        category: event.category,
+        time: event.time,
       });
     } catch (error) {
       console.error("Error editing event: ", error);

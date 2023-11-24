@@ -10,6 +10,9 @@
           <li class="nav-item" v-if="!store.currentUser">
             <RouterLink :to="{ name: 'login' }" class="nav-link">Login</RouterLink>
           </li>
+          <li class="nav-item" v-if="store.currentUser">
+            <RouterLink :to="{ name: 'profile' }" class="nav-link"> My profile</RouterLink>
+          </li>
           <li class="nav-item" v-if="store.currentUser?.role === 'admin'">
             <RouterLink :to="{ name: 'createEvent' }" class="nav-link">
               Create event</RouterLink
@@ -49,11 +52,6 @@ const logoutHandler = () => {
 </script>
 
 <style lang="scss" scoped>
-.navbar-brand {
-  font-size: 1.5rem;
-  color: white;
-}
-
 .nav-link {
   color: white;
 }
@@ -64,5 +62,16 @@ const logoutHandler = () => {
 
 .admin-icon {
   height: 1.2rem;
+}
+
+.router-link-active:not(.navbar-brand) {
+  background-color: #005eff;
+  border-radius: 0.25rem;
+  text-decoration: underline;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  color: white !important;
 }
 </style>

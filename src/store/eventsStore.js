@@ -76,7 +76,15 @@ const eventStore = defineStore("event", {
         await eventServices.delete(id);
         await this.getEvents();
       } catch (error) {
-        console.error("Error removing a product:", error);
+        console.error("Error removing an event:", error);
+      }
+    },
+    async editEvent(event) {
+      try {
+        await eventServices.editEvent(event);
+        await this.getEventById(event.id);
+      } catch (error) {
+        console.error("Error editing event:", error);
       }
     },
   },

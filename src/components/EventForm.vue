@@ -29,8 +29,6 @@
           placeholder="Open the map in order to choose timezone"
           class="form-control"
         />
-        <!-- Maybe replace the input and label with the basic input component ,
-          but need to find a way to add more atributes to the input -->
       </div>
       <div class="input-wrapper mt-4">
         <div class="mr-4 mb-2">
@@ -46,12 +44,7 @@
       </div>
       <div class="input-wrapper mt-4">
         <label for="exampleFormControlTextarea1">Description:</label>
-        <textarea
-          class="form-control"
-          id="exampleFormControlTextarea1"
-          rows="4"
-          v-model="description"
-        ></textarea>
+        <textarea class="form-control" rows="4" v-model="description"></textarea>
       </div>
       <button type="submit" class="btn btn-primary mt-4">Create Event</button>
     </form>

@@ -28,8 +28,8 @@
 </template>
 
 <script setup>
-import DropdownSelect from "../../components/DropdownSelect.vue";
-import BasicInput from "../../components/BasicInput.vue";
+import DropdownSelect from "@/components/dropdownSelect.vue";
+import BasicInput from "@/components/BasicInput.vue";
 import { ref } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";

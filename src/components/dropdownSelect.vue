@@ -51,6 +51,9 @@ const selectOption = (option) => {
 </script>
 
 <style lang="scss" scoped>
+label {
+  font-weight: bold;
+}
 .custom-select {
   position: relative;
   display: block;
