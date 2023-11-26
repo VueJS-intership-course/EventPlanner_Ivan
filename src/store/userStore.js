@@ -29,6 +29,16 @@ const userStore = defineStore("user", {
       userService.logout();
       this.currentUser = null;
     },
+    async updatePassword(password) {
+      userService.changeUserPassword(password);
+      this.logoutUser();
+    },
+
+    async updateEmailandTz(newEmail, timezone) {
+      userService.changeEmail(newEmail, this.currentUser.email, timezone);
+
+      if (this.currentUser.email !== newEmail) this.logoutUser();
+    },
   },
 });
 

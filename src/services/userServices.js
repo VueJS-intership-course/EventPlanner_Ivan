@@ -4,7 +4,11 @@ import {
   signInWithEmailAndPassword,
   browserLocalPersistence,
   getAuth,
+  updatePassword,
+  updateEmail,
 } from "firebase/auth";
+
+import { useRouter } from "vue-router";
 
 export default {
   async getAll() {
@@ -80,5 +84,37 @@ export default {
 
   async logout() {
     await firebaseData.fireAuth.signOut();
+  },
+
+  async changeUserPassword(password) {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    try {
+      await updatePassword(user, password);
+      console.log("Password changed successfully!");
+    } catch (error) {
+      console.log("There was an error changing the password: ", error);
+    }
+  },
+  async changeEmail(newEmail, oldEmail, timezone) {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const querySnapshot = await firebaseData.fireStore
+      .collection("users")
+      .where("email", "==", oldEmail)
+      .get();
+    const doc = querySnapshot.docs[0];
+
+    try {
+      await updateEmail(user, newEmail);
+      await doc.ref.update({
+        email: newEmail,
+        timezone,
+      });
+      console.log("Email changed successfully!");
+    } catch (error) {
+      console.log("There was an error changing the email: ", error);
+    }
   },
 };

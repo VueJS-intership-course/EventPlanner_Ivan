@@ -6,7 +6,7 @@
         <BasicInput name="email" type="email" label="Email address" />
       </div>
       <div class="input-wrapper">
-        <BasicInput name="password" type="password" label="Password" class="from-control" />
+        <BasicInput name="password" type="password" label="New Password" />
       </div>
       <div class="input-wrapper">
         <BasicInput name="passwordConfirm" type="password" label="Repeat Password" />

@@ -114,6 +114,7 @@ const handleImgSubmit = (event) => {
   const file = event.target.files[0];
   if (file) {
     eventImg.value = file;
+    console.log(eventImg.value);
   }
 };
 

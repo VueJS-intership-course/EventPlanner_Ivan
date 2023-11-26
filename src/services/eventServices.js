@@ -104,6 +104,8 @@ export default {
       .get();
 
     const doc = querySnapshot.docs[0];
+    const blob = await imageConverter(event.imgSrc);
+
     try {
       await doc.ref.update({
         name: event.name,
@@ -112,6 +114,8 @@ export default {
         budget: event.budget,
         description: event.description,
         time: event.time,
+        timezone: event.timezone,
+        imgSrc: blob,
       });
     } catch (error) {
       console.error("Error editing event: ", error);

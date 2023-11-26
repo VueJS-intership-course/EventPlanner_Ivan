@@ -74,7 +74,7 @@
                     <label class="form-label">City/State or Timezone:</label>
                     <input
                       readonly
-                      :value="editedEvent.timezone"
+                      :value="tzValue"
                       placeholder="Open the map in order to choose timezone"
                       class="form-control"
                     />
@@ -129,7 +129,12 @@ import timeConvert from "@/utills/convertToTimezone.js";
 
 const useEventStore = eventStore();
 
+const eventImg = ref(null);
 const editedEvent = computed(() => useEventStore.selectedEvent);
+const tzValue = computed(
+  () => useEventStore.eventCreationTz || useEventStore.selectedEvent.timezone
+);
+const imgValue = computed(() => eventImg.value || useEventStore.selectedEvent.imgSrc);
 
 const utcTime = computed(() => {
   return timeConvert(editedEvent.value.time);
@@ -143,6 +148,13 @@ const isOpen = ref(false);
 
 const switchModal = () => {
   isOpen.value = !isOpen.value;
+};
+
+const handleImgSubmit = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    eventImg.value = file;
+  }
 };
 
 const onSubmit = (event) => {
@@ -160,7 +172,9 @@ const onSubmit = (event) => {
     budget: event.target.elements.budget.value,
     description: event.target.elements.description.value,
     time: eventDate,
+    timezone: tzValue.value,
     id: editedEvent.value.id,
+    imgSrc: imgValue.value,
   };
 
   useEventStore.editEvent(finishedEvent);

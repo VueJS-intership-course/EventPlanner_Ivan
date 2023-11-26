@@ -35,7 +35,7 @@ const initMap = () => {
   map.value = new Map({
     layers: [new TileLayer({ source: new OSM() })],
     view: new View({
-      center: fromLonLat([0, 0]),
+      center: fromLonLat([15, 50]),
       zoom: 4,
     }),
     target: map.value,

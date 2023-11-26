@@ -6,7 +6,7 @@
         <div class="modal-dialog modal-dialog-centered" @click.stop="">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Edit Email and Password</h5>
+              <h5 class="modal-title">Edit Email and Timezone</h5>
               <button
                 type="button"
                 class="close"
@@ -22,10 +22,13 @@
                 <form @submit.prevent="onSubmit">
                   <div class="input-wrapper mt-4">
                     <label class="form-label">Email:</label>
-                    <input :value="user.email" class="form-control" />
+                    <input v-model="emailInput" class="form-control" />
                   </div>
                   <div class="input-wrapper mt-4">
-                    <DropdownSelect />
+                    <DropdownSelect v-model="timezoneInput" />
+                    <p class="mt-2">
+                      If nothing is selected , the previous one will be saved .
+                    </p>
                   </div>
                   <button type="submit" class="btn btn-primary mt-4">Save changes</button>
                 </form>
@@ -47,10 +50,13 @@
 import DropdownSelect from "@/components/dropdownSelect.vue";
 import userStore from "@/store/userStore";
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const useUserStore = userStore();
 
 const isOpen = ref(false);
+const timezoneInput = ref(null);
 
 const switchModal = () => {
   isOpen.value = !isOpen.value;
@@ -59,6 +65,16 @@ const switchModal = () => {
 const user = computed(() => {
   return useUserStore.currentUser;
 });
+
+const emailInput = ref(user.value.email);
+
+const tzResult = computed(() => timezoneInput.value || user.value.timezone);
+
+const onSubmit = () => {
+  useUserStore.updateEmailandTz(emailInput.value, tzResult.value);
+  switchModal();
+  router.push({ name: "login" });
+};
 </script>
 
 <style lang="scss" scoped>

@@ -83,6 +83,9 @@ const eventStore = defineStore("event", {
       try {
         await eventServices.editEvent(event);
         await this.getEventById(event.id);
+        this.eventCreationAddress = null;
+        this.eventCreationCoord = null;
+        this.eventCreationTz = null;
       } catch (error) {
         console.error("Error editing event:", error);
       }

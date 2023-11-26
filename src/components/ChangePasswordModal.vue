@@ -20,13 +20,15 @@
             <div class="modal-body">
               <div class="d-flex flex-column p-2 main-container my-4">
                 <form @submit.prevent="onSubmit">
-                  <div class="input-wrapper mt-4">
-                    <label class="form-label">Enter new Password:</label>
-                    <input type="password" class="form-control" />
+                  <div class="input-wrapper">
+                    <BasicInput name="password" type="password" label="New Password" />
                   </div>
-                  <div class="input-wrapper mt-4">
-                    <label class="form-label">Repeat Password:</label>
-                    <input type="password" class="form-control" />
+                  <div class="input-wrapper">
+                    <BasicInput
+                      name="passwordConfirm"
+                      type="password"
+                      label="Repeat Password"
+                    />
                   </div>
                   <button type="submit" class="btn btn-primary mt-4">Save changes</button>
                 </form>
@@ -45,20 +47,42 @@
 </template>
 
 <script setup>
-import DropdownSelect from "@/components/dropdownSelect.vue";
 import userStore from "@/store/userStore";
-import { ref, computed } from "vue";
+import { ref } from "vue";
+import BasicInput from "./BasicInput.vue";
+import * as yup from "yup";
+import { useForm } from "vee-validate";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const useUserStore = userStore();
 
 const isOpen = ref(false);
 
+const { handleSubmit } = useForm({
+  validationSchema: yup.object({
+    password: yup
+      .string()
+      .min(6, "Password must be at least 6 symbols!")
+      .required("This field is required!"),
+    passwordConfirm: yup
+      .string()
+      .required("This field is required!")
+      .min(6, "Password must be at least 6 symbols!")
+      .oneOf([yup.ref("password")], "Passwords does not match!"),
+  }),
+});
+
 const switchModal = () => {
   isOpen.value = !isOpen.value;
 };
 
-const user = computed(() => {
-  return useUserStore.currentUser;
+const onSubmit = handleSubmit((values, { resetForm }) => {
+  useUserStore.updatePassword(values.password);
+  resetForm();
+  switchModal();
+  router.push({ name: "login" });
 });
 </script>
 
@@ -85,5 +109,10 @@ const user = computed(() => {
 
 label {
   font-weight: bold;
+}
+
+.input-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
 }
 </style>
