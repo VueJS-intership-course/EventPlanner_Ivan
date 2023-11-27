@@ -1,6 +1,7 @@
 <template>
   <div class="mb-5">
     <h1 class="d-flex justify-content-center my-4">Events List</h1>
+    <Filters />
     <div class="event-list mx-4" v-if="!isLoading">
       <div v-for="event in eventList" :key="event.id" class="event-card">
         <img :src="event.imgSrc" class="event-image" alt="Event Image" />
@@ -24,6 +25,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import eventStore from "@/store/eventsStore.js";
+import Filters from "./Filters.vue";
 
 const useEventStore = eventStore();
 
