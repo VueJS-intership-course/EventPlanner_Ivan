@@ -18,6 +18,7 @@ export default {
           description,
           address,
           imgSrc,
+          time,
         } = doc.data();
         const event = {
           id,
@@ -29,6 +30,7 @@ export default {
           description,
           address,
           imgSrc,
+          time,
         };
         data.push(event);
       });

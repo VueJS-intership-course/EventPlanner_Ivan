@@ -9,6 +9,12 @@ const eventStore = defineStore("event", {
     eventCreationCoord: null,
     eventCreationAddress: null,
     eventCreationTz: null,
+    filters: {
+      minPrice: null,
+      maxPrice: null,
+      startDate: null,
+      endDate: null,
+    },
   }),
   getters: {
     getAllEvents(state) {
@@ -36,6 +42,23 @@ const eventStore = defineStore("event", {
 
         return state.eventCountries;
       }
+    },
+    filteredEvents() {
+      return this.allEvents.filter((event) => {
+        const priceCondition =
+          (!this.filters.minPrice || event.ticketPrice >= this.filters.minPrice) &&
+          (!this.filters.maxPrice || event.ticketPrice <= this.filters.maxPrice);
+        const dateObject = new Date(event.time);
+
+        const formattedDate = dateObject.toISOString().split("T")[0];
+        const dateCondition =
+          (!this.filters.startDate || formattedDate >= this.filters.startDate) &&
+          (!this.filters.endDate || formattedDate <= this.filters.endDate);
+        return priceCondition && dateCondition;
+      });
+    },
+    hasFilters() {
+      return Object.values(this.filters).some((filter) => filter !== null && filter !== "");
     },
   },
   actions: {
@@ -89,6 +112,14 @@ const eventStore = defineStore("event", {
       } catch (error) {
         console.error("Error editing event:", error);
       }
+    },
+    clearFilters() {
+      this.filters = {
+        minPrice: null,
+        maxPrice: null,
+        startDate: null,
+        endDate: null,
+      };
     },
   },
 });

@@ -3,7 +3,7 @@
     <h1 class="d-flex justify-content-center my-4">Events List</h1>
     <Filters />
     <div class="event-list mx-4" v-if="!isLoading">
-      <div v-for="event in eventList" :key="event.id" class="event-card">
+      <div v-for="event in filteredEvent" :key="event.id" class="event-card">
         <img :src="event.imgSrc" class="event-image" alt="Event Image" />
         <div class="event-details">
           <h2>{{ event.name }}</h2>
@@ -18,12 +18,15 @@
           </RouterLink>
         </div>
       </div>
+      <p v-if="filteredEvent.length === 0" class="m-auto">
+        No events found matching the filters!
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import eventStore from "@/store/eventsStore.js";
 import Filters from "./Filters.vue";
 
@@ -31,6 +34,11 @@ const useEventStore = eventStore();
 
 const eventList = ref([]);
 const isLoading = ref(true);
+const filteredEvent = computed(() => {
+  return useEventStore.getAllEvents.length > useEventStore.filteredEvents.length
+    ? useEventStore.filteredEvents
+    : useEventStore.getAllEvents;
+});
 
 const populateEvents = async () => {
   try {
