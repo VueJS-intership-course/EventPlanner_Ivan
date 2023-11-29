@@ -12,21 +12,13 @@ import mapInit from "highcharts/modules/map";
 import mapData from "@highcharts/map-collection/custom/world.geo.json";
 import eventStore from "@/store/eventsStore";
 
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faCoffee, faCog } from "@fortawesome/free-solid-svg-icons";
-
 mapInit(Highcharts);
 
 Highcharts.maps["myMapName"] = mapData;
 
 const pinia = createPinia();
 
-library.add(faCoffee, faCog);
-
 const app = createApp(App);
-
-app.component("font-awesome-icon", FontAwesomeIcon);
 
 app.use(pinia);
 
