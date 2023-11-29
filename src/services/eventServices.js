@@ -76,6 +76,7 @@ export default {
         time: event.time,
         imgSrc: blob,
         soldTo: [],
+        expenses: [],
       });
       await this.getAll();
     } catch (error) {
@@ -136,6 +137,24 @@ export default {
         ticketCount: event.ticketCount,
         budget: event.budget,
         soldTo: event.soldTo,
+      });
+    } catch (error) {
+      console.error("Error buying ticket: ", error);
+    }
+  },
+
+  async addEventExpense(event) {
+    const querySnapshot = await fireBaseData.fireStore
+      .collection("events")
+      .where("id", "==", event.id)
+      .get();
+
+    const doc = querySnapshot.docs[0];
+
+    try {
+      await doc.ref.update({
+        budget: event.budget,
+        expenses: event.expenses,
       });
     } catch (error) {
       console.error("Error buying ticket: ", error);

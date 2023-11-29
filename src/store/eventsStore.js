@@ -91,7 +91,42 @@ const eventStore = defineStore("event", {
         await eventServices.buyEventTicket(event);
         await this.getEventById(event.id);
       } catch (error) {
-        console.error("Error buying ticket: ", error);
+        console.log("Error buying ticket: ", error);
+      }
+    },
+    async addExpense(expense) {
+      if (this.selectedEvent.budget < expense.amount) {
+        alert("Expense is over budget!");
+        return;
+      }
+      this.selectedEvent.budget = this.selectedEvent.budget - expense.amount;
+
+      const transformedExpense = {
+        name: expense.category,
+        y: expense.amount,
+      };
+
+      // const existingIndex = this.selectedEvent.expenses.findIndex((obj) => {
+      //   const oldName = obj.name.toLowerCase;
+      //   const newName = transformedExpense.name.toLowerCase();
+      //   console.log(oldName);
+      //   console.log(newName);
+      //   return oldName === newName;
+      // });
+      // console.log(existingIndex);
+      // if (existingIndex) {
+      //   this.selectedEvent.expenses[existingIndex].y += transformedExpense.y;
+      // } else {
+
+      // }
+
+      this.selectedEvent.expenses = [...this.selectedEvent.expenses, transformedExpense];
+
+      try {
+        await eventServices.addEventExpense(this.selectedEvent);
+        await this.getEventById(this.selectedEvent.id);
+      } catch (error) {
+        console.log("There was a problem adding expense:", error);
       }
     },
     async deleteEvent(id) {

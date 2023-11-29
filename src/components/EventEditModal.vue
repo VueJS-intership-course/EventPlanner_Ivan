@@ -181,7 +181,8 @@ const onSubmit = (event) => {
   isOpen.value = false;
 };
 </script>
-<style scoped>
+
+<style lang="scss" scoped>
 .modal {
   position: fixed;
   top: 0;

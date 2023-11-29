@@ -47,14 +47,17 @@
           <RouterLink :to="{ name: 'login' }">Click here to sign in</RouterLink>
         </div>
         <!-- <span v-if="!event.ticketCount" class="btn btn-danger">SOLD OUT!</span> -->
-        <div v-if="user?.role === 'admin'" class="d-flex gap-2">
-          <!-- <button class="btn btn-primary">Edit</button> -->
+        <div v-if="user?.role === 'admin'" class="d-flex gap-2 align-items-end">
           <EventEditModal />
           <button class="btn btn-danger" @click="deleteHandler">Delete</button>
+          <button class="btn btn-dark" @click="expenseHandler">Show expenses</button>
         </div>
       </div>
     </div>
   </div>
+  <transition name="fade" mode="out-in">
+    <Expenses v-if="showExpenses" :key="expensesKey" />
+  </transition>
 </template>
 
 <script setup>
@@ -64,6 +67,7 @@ import eventStore from "@/store/eventsStore.js";
 import userStore from "@/store/userStore.js";
 import timeConvert from "@/utills/convertToTimezone.js";
 import EventEditModal from "@/components/EventEditModal.vue";
+import Expenses from "./Expenses.vue";
 
 const useEventStore = eventStore();
 const useUserStore = userStore();
@@ -76,6 +80,8 @@ const user = computed(() => useUserStore.currentUser);
 const isBought = computed(() => {
   return event.value.soldTo.includes(user.value.email) ? true : false;
 });
+const showExpenses = ref(false);
+const expensesKey = ref(0);
 
 useEventStore.getEventById(eventId.value.eventId);
 
@@ -97,6 +103,11 @@ const buyHandler = () => {
 const deleteHandler = () => {
   useEventStore.deleteEvent(event.value.id);
   router.push({ name: "events" });
+};
+
+const expenseHandler = () => {
+  showExpenses.value = !showExpenses.value;
+  expensesKey.value += 1;
 };
 
 onBeforeUnmount(() => {
@@ -147,5 +158,14 @@ onBeforeUnmount(() => {
       margin-top: 0.5rem;
     }
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
