@@ -106,21 +106,14 @@ const eventStore = defineStore("event", {
         y: expense.amount,
       };
 
-      // const existingIndex = this.selectedEvent.expenses.findIndex((obj) => {
-      //   const oldName = obj.name.toLowerCase;
-      //   const newName = transformedExpense.name.toLowerCase();
-      //   console.log(oldName);
-      //   console.log(newName);
-      //   return oldName === newName;
-      // });
-      // console.log(existingIndex);
-      // if (existingIndex) {
-      //   this.selectedEvent.expenses[existingIndex].y += transformedExpense.y;
-      // } else {
-
-      // }
-
-      this.selectedEvent.expenses = [...this.selectedEvent.expenses, transformedExpense];
+      const existingIndex = this.selectedEvent.expenses.findIndex(
+        (obj) => obj.name.toLowerCase() === transformedExpense.name.toLowerCase()
+      );
+      if (existingIndex !== -1) {
+        this.selectedEvent.expenses[existingIndex].y += transformedExpense.y;
+      } else {
+        this.selectedEvent.expenses = [...this.selectedEvent.expenses, transformedExpense];
+      }
 
       try {
         await eventServices.addEventExpense(this.selectedEvent);

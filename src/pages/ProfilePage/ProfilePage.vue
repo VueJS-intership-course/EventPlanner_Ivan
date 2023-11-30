@@ -30,6 +30,9 @@
             <ChangePasswordModal />
           </div>
         </div>
+        <div class="my-5">
+          <Calendar />
+        </div>
       </div>
     </div>
   </div>
@@ -40,10 +43,22 @@ import UserEditModal from "@/components/UserEditModal.vue";
 import ChangePasswordModal from "@/components/ChangePasswordModal.vue";
 import userStore from "@/store/userStore";
 import { computed } from "vue";
+import Calendar from "@/components/Calendar.vue";
 
 const useUserStore = userStore();
 
 const user = computed(() => useUserStore.currentUser);
+
+const date = computed(() => {
+  if (useUserStore.currentUser) {
+    const userTz = useUserStore.currentUser.timezone;
+    const result = timeConvert(event.value?.time, userTz);
+    return result;
+  } else {
+    const result = timeConvert(event.value?.time);
+    return result;
+  }
+});
 </script>
 
 <style lang="scss" scoped>

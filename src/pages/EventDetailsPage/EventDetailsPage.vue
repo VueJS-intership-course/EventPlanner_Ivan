@@ -32,7 +32,7 @@
         </div>
         <div class="info-item mb-4">
           <label v-if="user">Date and time in your timezone:</label>
-          <label v-else>Date and time in UTC:</label>
+          <label v-if="!user">Date and time in UTC:</label>
           <span>{{ date }}</span>
         </div>
         <button
