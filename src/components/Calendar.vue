@@ -11,8 +11,11 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { computed, ref } from "vue";
 import eventStore from "@/store/eventsStore";
 import moment from "moment";
+import { useRouter } from "vue-router";
 
 const useEventStore = eventStore();
+
+const router = useRouter();
 
 const events = computed(() => useEventStore.getAllEvents);
 
@@ -25,6 +28,7 @@ const calendarEvents = computed(() =>
 
 const handleDateClick = (eventInfo) => {
   console.log(eventInfo.event.id);
+  router.push({ name: "eventDetails", params: { eventId: eventInfo.event.id } });
 };
 
 const calendarOptions = ref({
