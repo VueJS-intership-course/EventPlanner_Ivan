@@ -82,9 +82,6 @@
                   <div class="input-wrapper mt-4">
                     <div class="mr-4 mb-2">
                       <label class="form-label">Press the button to select location:</label>
-                      <!-- <span class="map-error" v-if="isNotSelectedLoc"
-                        >Please choose location!</span
-                      > -->
                     </div>
                     <MapModal />
                   </div>
@@ -92,7 +89,6 @@
                     <label class="form-label">Upload an Event cover image:</label>
                     <input type="file" class="form-control" @change="handleImgSubmit" />
                     <span>If no image is uploaded , the previous will be used.</span>
-                    <!-- <span class="map-error" v-if="isNotSelectedImg">Please upload image!</span> -->
                   </div>
                   <div class="input-wrapper mt-4">
                     <label for="exampleFormControlTextarea1">Description:</label>

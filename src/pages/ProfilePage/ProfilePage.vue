@@ -26,8 +26,8 @@
             </div>
           </div>
           <div class="form-group d-flex justify-content-center mb-4 gap-4">
-            <UserEditModal />
-            <ChangePasswordModal />
+            <UserEdit />
+            <ChangePassword />
           </div>
         </div>
         <div class="my-5">
@@ -39,11 +39,11 @@
 </template>
 
 <script setup>
-import UserEditModal from "@/components/UserEditModal.vue";
-import ChangePasswordModal from "@/components/ChangePasswordModal.vue";
 import userStore from "@/store/userStore";
 import { computed } from "vue";
-import Calendar from "@/components/Calendar.vue";
+import Calendar from "@/pages/ProfilePage/Calendar.vue";
+import ChangePassword from "./ChangePassword.vue";
+import UserEdit from "./UserEdit.vue";
 
 const useUserStore = userStore();
 
