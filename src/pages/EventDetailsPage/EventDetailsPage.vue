@@ -46,11 +46,10 @@
           <span>Want to buy a ticket? </span>
           <RouterLink :to="{ name: 'login' }">Click here to sign in</RouterLink>
         </div>
-        <!-- <span v-if="!event.ticketCount" class="btn btn-danger">SOLD OUT!</span> -->
         <div v-if="user?.role === 'admin'" class="d-flex gap-2 align-items-end">
           <EventEditModal />
           <button class="btn btn-danger" @click="deleteHandler">Delete</button>
-          <button class="btn btn-dark" @click="expenseHandler">Show expenses</button>
+          <button class="btn btn-success" @click="expenseHandler">Show expenses</button>
         </div>
       </div>
     </div>
@@ -66,7 +65,7 @@ import { useRoute, useRouter } from "vue-router";
 import eventStore from "@/store/eventsStore.js";
 import userStore from "@/store/userStore.js";
 import timeConvert from "@/utills/convertToTimezone.js";
-import EventEditModal from "@/components/EventEditModal.vue";
+import EventEditModal from "@/pages/EventDetailsPage/EventEditModal.vue";
 import Expenses from "./Expenses.vue";
 
 const useEventStore = eventStore();

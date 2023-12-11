@@ -7,7 +7,7 @@
       <div class="modal-body">
         <div class="d-flex flex-column p-2 main-container my-4">
           <form @submit.prevent="onSubmit">
-            <div class="input-wrapper mt-4">
+            <div class="input-wrapper">
               <label class="form-label">Email:</label>
               <input v-model="emailInput" class="form-control" />
             </div>

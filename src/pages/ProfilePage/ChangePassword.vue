@@ -1,7 +1,7 @@
 <template>
   <BasicModal :btnLabel="'Change Password'">
     <template #default="{ switchModal }">
-      <div class="d-flex flex-column p-2 main-container my-4">
+      <div class="d-flex flex-column p-2 main-container">
         <h5 class="modal-title">Change Password</h5>
       </div>
       <div class="modal-body">

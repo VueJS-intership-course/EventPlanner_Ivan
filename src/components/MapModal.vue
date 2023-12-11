@@ -1,54 +1,22 @@
 <template>
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-toggle="modal"
-    data-target="#exampleModal"
-    @click="switchModal"
-  >
-    Open Map
-  </button>
-  <Teleport to="body">
-    <Transition name="modal">
-      <div class="modal d-block" v-if="isOpen" @click="switchModal">
-        <div class="modal-dialog modal-dialog-centered" @click.stop="">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Event Location</h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-                @click="switchModal"
-              >
-                <span>&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <MapElement />
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" @click="switchModal">
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
+  <BasicModal :btnLabel="'Open Map'">
+    <template #default="{ switchModal }">
+      <div class="modal-header">
+        <h5 class="modal-title">Event Location</h5>
       </div>
-    </Transition>
-  </Teleport>
+      <div class="modal-body">
+        <MapElement />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" @click="switchModal">Close</button>
+      </div>
+    </template>
+  </BasicModal>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import MapElement from "./MapElement.vue";
-
-const isOpen = ref(false);
-
-const switchModal = () => {
-  isOpen.value = !isOpen.value;
-};
+import BasicModal from "./BasicModal.vue";
 </script>
 
 <style scoped>
