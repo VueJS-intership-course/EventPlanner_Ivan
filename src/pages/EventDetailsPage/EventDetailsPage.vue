@@ -49,7 +49,9 @@
         <div v-if="user?.role === 'admin'" class="d-flex gap-2 align-items-end">
           <EventEditModal />
           <button class="btn btn-danger" @click="deleteHandler">Delete</button>
-          <button class="btn btn-success" @click="expenseHandler">Show expenses</button>
+          <button class="btn btn-success" @click="expenseHandler">
+            {{ showExpenses ? "Hide" : "Show" }} expenses
+          </button>
         </div>
       </div>
     </div>

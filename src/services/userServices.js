@@ -78,8 +78,7 @@ export default {
       .get();
 
     const doc = querySnapshot.docs[0]?.data();
-
-    return { timezone: doc.timezone, role: doc.role };
+    if (doc.timezone !== undefined) return { timezone: doc.timezone, role: doc.role };
   },
 
   async logout() {
