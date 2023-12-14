@@ -17,12 +17,12 @@
 
             <div class="form-group my-4">
               <label for="email">Email:</label>
-              <span class="form-control">{{ user.email }}</span>
+              <span class="form-control">{{ useUserStore.currentUser.email }}</span>
             </div>
 
             <div class="form-group my-4">
               <label for="timezone">Timezone:</label>
-              <span class="form-control">{{ user.timezone }}</span>
+              <span class="form-control">{{ useUserStore.currentUser.timezone }}</span>
             </div>
           </div>
           <div class="form-group d-flex justify-content-center mb-4 gap-4">
@@ -40,25 +40,11 @@
 
 <script setup>
 import userStore from "@/store/userStore";
-import { computed } from "vue";
 import Calendar from "@/pages/ProfilePage/Calendar.vue";
 import ChangePassword from "./ChangePassword.vue";
 import UserEdit from "./UserEdit.vue";
 
 const useUserStore = userStore();
-
-const user = computed(() => useUserStore.currentUser);
-
-const date = computed(() => {
-  if (useUserStore.currentUser) {
-    const userTz = useUserStore.currentUser.timezone;
-    const result = timeConvert(event.value?.time, userTz);
-    return result;
-  } else {
-    const result = timeConvert(event.value?.time);
-    return result;
-  }
-});
 </script>
 
 <style lang="scss" scoped>

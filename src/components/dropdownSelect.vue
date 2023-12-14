@@ -35,10 +35,6 @@ const filteredOptions = computed(() => {
   return options.filter((option) => option.toLowerCase().includes(search.value.toLowerCase()));
 });
 
-const blurHandler = () => {
-  isOpen.value = false;
-};
-
 const filterOptions = () => {
   isOpen.value = true;
 };
