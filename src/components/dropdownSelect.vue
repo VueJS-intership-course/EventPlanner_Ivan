@@ -22,6 +22,8 @@
 </template>
 
 <script setup>
+// implement click outside
+
 import { ref, computed } from "vue";
 import moment from "moment-timezone";
 
@@ -34,6 +36,11 @@ const options = moment.tz.names();
 const filteredOptions = computed(() => {
   return options.filter((option) => option.toLowerCase().includes(search.value.toLowerCase()));
 });
+
+// delete unused
+const blurHandler = () => {
+  isOpen.value = false;
+};
 
 const filterOptions = () => {
   isOpen.value = true;
