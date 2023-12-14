@@ -80,17 +80,17 @@ const onSubmit = handleSubmit((values, { resetForm }) => {
 </script>
 
 <style lang="scss" scoped>
-.main-container {
-  max-width: 30rem;
-  margin: auto;
-}
+  .main-container {
+    max-width: 30rem;
+    margin: auto;
+  }
 
-.input-wrapper {
-  position: relative;
-  margin-bottom: 1.5rem;
-}
+  .input-wrapper {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
 
-.btn-primary {
-  margin-top: 1rem;
-}
+  .btn-primary {
+    margin-top: 1rem;
+  }
 </style>

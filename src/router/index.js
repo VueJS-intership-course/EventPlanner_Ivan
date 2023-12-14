@@ -8,6 +8,8 @@ import RegisterPage from "@/pages/RegisterPage/RegisterPage.vue";
 import LoginPage from "@/pages/LoginPage/LoginPage.vue";
 import userStore from "@/store/userStore";
 
+// chunks
+// meta requiresAuth
 const routes = [
   {
     path: "/",

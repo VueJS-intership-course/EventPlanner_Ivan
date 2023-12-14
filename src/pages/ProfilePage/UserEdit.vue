@@ -48,6 +48,9 @@ const tzResult = computed(() => timezoneInput.value || user.value.timezone);
 
 const onSubmit = () => {
   useUserStore.updateEmailandTz(emailInput.value, tzResult.value);
+
+
+  // Uncaught ReferenceError: switchModal is not defined
   switchModal();
   router.push({ name: "login" });
 };

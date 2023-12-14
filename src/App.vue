@@ -1,5 +1,6 @@
 <template>
   <TheHeader />
+  <!-- :key="$route.fullPath" -->
   <RouterView />
 </template>
 
