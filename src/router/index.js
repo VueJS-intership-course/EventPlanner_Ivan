@@ -1,35 +1,27 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomePage from "@/pages/HomePage/HomePage.vue";
-import EventsPage from "@/pages/EventsPage/EventsPage.vue";
-import EventDetailsPage from "@/pages/EventDetailsPage/EventDetailsPage.vue";
-import ProfilePage from "@/pages/ProfilePage/ProfilePage.vue";
-import CreateEventPage from "@/pages/CreateEventPage/CreateEventPage.vue";
-import RegisterPage from "@/pages/RegisterPage/RegisterPage.vue";
-import LoginPage from "@/pages/LoginPage/LoginPage.vue";
 import userStore from "@/store/userStore";
 
-// chunks
 // meta requiresAuth
 const routes = [
   {
     path: "/",
     name: "home",
-    component: HomePage,
+    component: () => import("@/pages/HomePage/HomePage.vue"),
   },
   {
     path: "/events",
     name: "events",
-    component: EventsPage,
+    component: () => import("@/pages/EventsPage/EventsPage.vue"),
   },
   {
     path: "/events/:eventId",
     name: "eventDetails",
-    component: EventDetailsPage,
+    component: () => import("@/pages/EventDetailsPage/EventDetailsPage.vue"),
   },
   {
     path: "/profile",
     name: "profile",
-    component: ProfilePage,
+    component: () => import("@/pages/ProfilePage/ProfilePage.vue"),
     beforeEnter: () => {
       const store = userStore();
       if (!store.currentUser) {
@@ -40,7 +32,7 @@ const routes = [
   {
     path: "/create-event",
     name: "createEvent",
-    component: CreateEventPage,
+    component: () => import("@/pages/CreateEventPage/CreateEventPage.vue"),
     beforeEnter: () => {
       const store = userStore();
       const userRole = store.currentUser?.role;
@@ -52,7 +44,7 @@ const routes = [
   {
     path: "/register",
     name: "register",
-    component: RegisterPage,
+    component: () => import("@/pages/RegisterPage/RegisterPage.vue"),
     beforeEnter: () => {
       const store = userStore();
       if (store.currentUser) {
@@ -63,7 +55,7 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: LoginPage,
+    component: () => import("@/pages/LoginPage/LoginPage.vue"),
     beforeEnter: () => {
       const store = userStore();
       if (store.currentUser) {

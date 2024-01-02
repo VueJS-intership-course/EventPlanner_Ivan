@@ -7,20 +7,18 @@
 <script setup>
 import { useField } from "vee-validate";
 
-// update props
 const props = defineProps({
-  name: String,
-  type: String,
-  label: String,
-  class: String,
+  name: { type: String, required: true, default: "" },
+  type: { type: String, default: "" },
+  label: { type: String, required: true, default: "" },
+  class: { type: String, default: "" },
 });
 
 const { value, errorMessage } = useField(() => props.name);
 </script>
 
 <style lang="scss" scoped>
-
-// change style
+// change style , remove position absolute
 // delete pockachane
 span {
   position: absolute;

@@ -7,8 +7,14 @@
       @input="filterOptions"
       @focus="isOpen = true"
       placeholder="Select an option"
+      ref="inputComponent"
     />
-    <ul v-show="isOpen" class="options-list">
+    <ul
+      v-show="isOpen"
+      class="options-list"
+      ref="dropdownComponent"
+      @click="clickOutsideHandler"
+    >
       <li
         v-for="option in filteredOptions"
         @click="selectOption(option)"
@@ -22,10 +28,20 @@
 </template>
 
 <script setup>
-// implement click outside
-
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import moment from "moment-timezone";
+
+const dropdownComponent = ref(null);
+const inputComponent = ref(null);
+
+onMounted(() => {
+  document.addEventListener("click", (event) => {
+    if (event.target !== inputComponent.value && event.target !== dropdownComponent.value) {
+      isOpen.value = false;
+      window.removeEventListener("click", dropdownComponent.clickOutsideHandler);
+    }
+  });
+});
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -36,11 +52,6 @@ const options = moment.tz.names();
 const filteredOptions = computed(() => {
   return options.filter((option) => option.toLowerCase().includes(search.value.toLowerCase()));
 });
-
-// delete unused
-const blurHandler = () => {
-  isOpen.value = false;
-};
 
 const filterOptions = () => {
   isOpen.value = true;

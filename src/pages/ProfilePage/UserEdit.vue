@@ -6,7 +6,7 @@
       </div>
       <div class="modal-body">
         <div class="d-flex flex-column p-2 main-container my-4">
-          <form @submit.prevent="onSubmit">
+          <form @submit.prevent="onSubmit(switchModal)">
             <div class="input-wrapper">
               <label class="form-label">Email:</label>
               <input v-model="emailInput" class="form-control" />
@@ -46,12 +46,11 @@ const emailInput = ref(user.value.email);
 
 const tzResult = computed(() => timezoneInput.value || user.value.timezone);
 
-const onSubmit = () => {
+const onSubmit = (closeAction) => {
   useUserStore.updateEmailandTz(emailInput.value, tzResult.value);
 
-
   // Uncaught ReferenceError: switchModal is not defined
-  switchModal();
+  closeAction();
   router.push({ name: "login" });
 };
 </script>

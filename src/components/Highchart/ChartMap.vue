@@ -7,13 +7,25 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, watch } from "vue";
 import mapData from "@highcharts/map-collection/custom/world.geo.json";
 import eventStore from "@/store/eventsStore";
 
 const useEventStore = eventStore();
 
-const eventCountries = computed(() => useEventStore.getEventCountries);
+const eventData = ref([]);
+
+watch(
+  () => useEventStore.getEventCountries,
+  (newState) => {
+    console.log("State changed:", newState);
+
+    newState.forEach((element) => {
+      eventData.value.push(element);
+    });
+    //
+  }
+);
 
 const mapOptions = ref({
   chart: {
@@ -24,7 +36,7 @@ const mapOptions = ref({
   },
   series: [
     {
-      data: eventCountries.value,
+      data: eventData.value,
       name: "Number of events",
       joinBy: "name",
       states: {
@@ -38,8 +50,6 @@ const mapOptions = ref({
     enabled: false,
   },
 });
-
-// onMounted(populateEvents);
 </script>
 
 <style scoped>

@@ -19,12 +19,14 @@ import { ref } from "vue";
 const isOpen = ref(false);
 
 const props = defineProps({
-  btnLabel: String,
+  btnLabel: { type: String, required: true, default: "" },
 });
 
 const switchModal = () => {
   isOpen.value = !isOpen.value;
 };
+
+defineExpose({ switchModal });
 </script>
 
 <style scoped lang="scss">
